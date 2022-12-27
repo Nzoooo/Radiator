@@ -1,0 +1,28 @@
+#!/usr/bin/env python3
+
+import sys
+
+def usage():
+    print("USAGE")
+    print("\t./306radiator n ir jr [i j]\n")
+    print("DESCRIPTION")
+    print("\tn\t\tsize of the room")
+    print("\t(ir, jr)\tcoordinates of the radiator")
+    print("\t(i, j)\tcoordinates of a point in the room")
+
+def main():
+    if len(sys.argv) != 2:
+        exit(84)
+    if sys.argv[1] == "-h":
+        usage()
+    else:
+        if len(sys.argv) != 4 and len(sys.argv) != 6:
+            exit(84)
+        return
+
+if __name__ == "__main__":
+    try:
+        main()
+    except:
+        usage()
+        exit(84)
