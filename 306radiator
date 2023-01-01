@@ -17,7 +17,7 @@ def usage():
     print("\t(ir, jr)\tcoordinates of the radiator")
     print("\t(i, j)\tcoordinates of a point in the room")
 
-def printer(M):
+def printerM(M):
     for j in range(0, roomSize*roomSize):
         for i in range(0, roomSize*roomSize):
             if (i == roomSize*roomSize - 1):
@@ -25,6 +25,18 @@ def printer(M):
             else:
                 print(M[j][i], end="\t")
     print()
+
+def printerY(Y):
+    for i in range(0, roomSize ** 2):
+        if round(Y[i], 1) == -0.0:
+            print(0.0)
+        else:
+            nbToRound = Y[i] * 10
+            if nbToRound - math.floor(nbToRound) < 0.5:
+                nbToRound = math.floor(nbToRound)
+            else:
+                nbToRound = math.ceil(nbToRound)
+            print('%.1f' % (nbToRound / 10))
 
 def createMatrix():
     M = np.zeros((roomSize*roomSize, roomSize*roomSize), dtype=int)
@@ -40,15 +52,11 @@ def createMatrix():
                 M[j][i-roomSize] = M[j][i+roomSize] = 1/pow(h, 2)
     return M
 
-def createVectorY():
-    Y = np.ones((roomSize*roomSize, 1))
-    Y[xr+roomSize*yr]=-300.0
-    for j in range(0, roomSize):
-        for i in range(0, roomSize):
-            if i == 0 or j == 0 or i == roomSize - 1 or j == roomSize - 1:
-                Y[i+roomSize*j]=0
-            else:
-                pass
+def createVectorY(M):
+    Y = [0 for _ in range(roomSize ** 2)]
+    Y[roomSize * yr + xr] = -300.0
+    newY = np.matmul(np.linalg.inv(M), Y)
+    return newY
 
 def main():
     global roomSize, xr, yr
@@ -61,8 +69,14 @@ def main():
             roomSize = int(sys.argv[1])
             xr = int(sys.argv[2])
             yr = int(sys.argv[3])
-            printer(createMatrix())
-            createVectorY()
+            M = createMatrix()
+            if len(sys.argv) == 4:
+                printerM(M)
+            Y = createVectorY(M)
+            if len(sys.argv) == 4:
+                printerY(Y)
+            if len(sys.argv) == 6:
+                print(round(Y[roomSize * yr + xr], 1))
         return
 
 if __name__ == "__main__":
