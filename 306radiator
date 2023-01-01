@@ -55,7 +55,7 @@ def createMatrix():
     return M
 
 def createVectorY(M):
-    Y = [0 for _ in range(roomSize ** 2)]
+    Y = np.zeros(roomSize ** 2)
     Y[roomSize * yr + xr] = -300.0
     newY = np.matmul(np.linalg.inv(M), Y)
     return newY
