@@ -7,6 +7,8 @@ import math
 h = 0.5
 xr = 0
 yr = 0
+xb = 0
+yb = 0
 roomSize = 0
 
 def usage():
@@ -76,7 +78,9 @@ def main():
             if len(sys.argv) == 4:
                 printerY(Y)
             if len(sys.argv) == 6:
-                print(round(Y[roomSize * yr + xr], 1))
+                xb = int(sys.argv[4])
+                yb = int(sys.argv[5])
+                print(round(Y[roomSize * yb + xb], 1))
         return
 
 if __name__ == "__main__":
